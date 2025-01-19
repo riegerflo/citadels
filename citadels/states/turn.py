@@ -7,6 +7,7 @@ A players turn goes as follows:
 * Lay out a building
 * At any time use his characters skill
 """
+from unittest.mock import MagicMock
 
 class State:
     def __init__(self, context):
@@ -29,10 +30,10 @@ class DecideAction(State):
             self.context.state = DecideAction(self.context)
 
 class TakeTwoGoldCoins(State):
-    def handle(self, context):
+    def handle(self):
         print("Taking two gold coins")
-        context.player.gold += 2
-        context.state = LayOutBuilding(context)
+        self.context.player.gold += 2
+        self.context.state = LayOutBuilding(self.context)
 
 class DrawTwoCards(State):
     def get_user_input(self, cards):
@@ -42,13 +43,13 @@ class DrawTwoCards(State):
             self.get_user_input(cards)
         return card
 
-    def handle(self, context):
+    def handle(self):
         print("Drawing two cards")
-        cards = [context.game.draw() for _ in range(2)]
+        cards = [self.context.game.draw() for _ in range(2)]
         card = self.get_user_input(cards)
         print(f"Keeping card: {cards[card-1]}")
         self.context.player.cards.append(cards[card-1])
-        context.state = LayOutBuilding(context)
+        self.context.state = LayOutBuilding(self.context)
 
 class LayOutBuilding(State):
     def get_user_input(self):
@@ -65,19 +66,19 @@ class LayOutBuilding(State):
             building = self.context.player.cards.pop(build-1)
             print(f"Laying out building: {building}")
             self.context.player.buildings.append(building)
-        self.context.state = UseCharacterSkill(self.ontext)
+        self.context.state = UseCharacterSkill(self.context)
 
 class UseCharacterSkill(State):
-    def handle(self, context):
+    def handle(self):
         use_skill = input("Do you want to use your character's skill? (yes/no): ")
         if use_skill.lower() == 'yes':
             print("Using character skill")
-        context.state = EndTurn(context)
+        self.context.state = EndTurn(self.context)
 
 class EndTurn(State):
-    def handle(self, context):
+    def handle(self):
         print("Ending turn")
-        context.state = None  # No next state
+        self.context.state = None  # No next state
 
 class PlayerTurnContext:
     def __init__(self, player, game):
@@ -87,10 +88,10 @@ class PlayerTurnContext:
 
     def request(self):
         while self.state is not None:
-            self.state.handle(self)
+            self.state.handle()
 
 # Example usage
 if __name__ == "__main__":
-    turn = PlayerTurnContext()
+    turn = PlayerTurnContext(MagicMock(), MagicMock())
     turn.request()
 
