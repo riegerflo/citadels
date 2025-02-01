@@ -14,4 +14,4 @@ class Dieb(Character):
     def use_ability(self):
         print("Using Dieb's skill")
 
-dieb = Dieb()
+#dieb = Dieb()

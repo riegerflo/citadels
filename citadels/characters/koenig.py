@@ -14,4 +14,4 @@ class Koenig(Character):
     def use_ability(self):
         print("Using Koenig's skill")
 
-koenig = Koenig()
+#koenig = Koenig()

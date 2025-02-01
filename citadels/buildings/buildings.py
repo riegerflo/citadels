@@ -35,12 +35,6 @@ def generate_deck(filename):
             buildings.append(_building)
     random.shuffle(buildings)
     return buildings
-for item in generate_deck("./citadels/buildings/ListBuildings.xlsx"):
-    print(item.name)
-    print(item.cost)
-    print(item.color)
-    print(item.victory_points)
-    print(item.actions)
 
     
 

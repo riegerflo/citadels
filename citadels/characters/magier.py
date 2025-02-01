@@ -14,4 +14,4 @@ class Magier(Character):
     def use_ability(self):
         print("Using Magier's skill")
 
-magier = Magier()
+#magier = Magier()

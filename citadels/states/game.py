@@ -1,7 +1,7 @@
 """Handles the states of the game at the highest level."""
 from random import choice
-
-from citadels.characters import characters
+from citadels.buildings.buildings import generate_deck
+# from citadels.characters import characters
 from citadels.states.turn import PlayerTurnContext, ChooseCharactersContext
 
 class Game:
@@ -12,7 +12,7 @@ class Game:
         self.current_player = players[0]
         self.next_start_player = choice(players)
 
-        self.deck = []
+        self.deck = generate_deck("./citadels/buildings/ListBuildings.xlsx")
         self.discard = []
         self.characters = []
 
@@ -40,7 +40,7 @@ class Game:
 
     def _player_reached_win_condition(self, player):
         """Check if the player reached the win condition."""
-        return len(player.buildings) >= 8
+        return len(player.city) >= 8
 
     def _get_next_player(self):
         """Based on the character order, get the next player."""

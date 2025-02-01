@@ -15,4 +15,4 @@ class Baumeister(Character):
     def use_ability(self):
         print("Using Baumeister's skill")
 
-baumeister = Baumeister()
+#baumeister = Baumeister()

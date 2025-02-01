@@ -14,4 +14,4 @@ class Haendler(Character):
     def use_ability(self):
         print("Using Haendler's skill")
 
-haendler = Haendler()
+#haendler = Haendler()

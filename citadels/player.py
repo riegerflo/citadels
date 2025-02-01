@@ -3,7 +3,7 @@ class Player:
         self.name = name
         self.gold = 2
         self.hand = []
-        self.buildings = []
+        self.city = []
         self.characters = []
         self.game = None
 

@@ -1,11 +1,11 @@
 from .character import Character, Color
-from .baumeister import baumeister
-from .dieb import dieb
-from .haendler import haendler
-from .koenig import koenig
-from .magier import magier
-from .priester import priester
-from .meuchler import meuchler
-from .soeldner import soeldner
+from .baumeister import Baumeister
+from .dieb import Dieb
+from .haendler import Haendler
+from .koenig import Koenig
+from .magier import Magier
+from .priester import Priester
+from .meuchler import Meuchler
+from .soeldner import Soeldner
 
-characters = [meuchler, dieb, magier, haendler, koenig, baumeister, priester, soeldner]
+# characters = [meuchler, dieb, magier, haendler, koenig, baumeister, priester, soeldner]

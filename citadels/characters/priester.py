@@ -14,4 +14,4 @@ class Priester(Character):
     def use_ability(self):
         print("Using Priester's skill")
 
-priester = Priester()
+#priester = Priester()

@@ -14,4 +14,4 @@ class Meuchler(Character):
     def use_ability(self):
         print("Using Meuchler's skill")
 
-meuchler = Meuchler()
+#meuchler = Meuchler()

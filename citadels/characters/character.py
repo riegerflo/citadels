@@ -3,7 +3,6 @@ import abc
 import logging
 from enum import Enum
 
-
 class Color(Enum):
     NONE = 0
     GOLDEN = 1
@@ -15,8 +14,9 @@ class Color(Enum):
 class Character(abc.ABC):
     """Base class for all the characters."""
 
-    def __init__(self):
+    def __init__(self, game):
         self._logger = logging.getLogger(__name__).getChild(str(self))
+        self.game = game
 
         # List of actions executed after activation
         self._actions = []
