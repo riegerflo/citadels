@@ -1,3 +1,4 @@
+from .character import Character, Color
 from .baumeister import baumeister
 from .dieb import dieb
 from .haendler import haendler

@@ -5,6 +5,7 @@ from enum import Enum
 
 
 class Color(Enum):
+    NONE = 0
     GOLDEN = 1
     GREEN = 2
     BLUE = 3
@@ -14,14 +15,11 @@ class Color(Enum):
 class Character(abc.ABC):
     """Base class for all the characters."""
 
-    def __init__(self, game):
+    def __init__(self):
         self._logger = logging.getLogger(__name__).getChild(str(self))
 
         # List of actions executed after activation
         self._actions = []
-
-        # game instance
-        self.game = game
 
     def __str__(self):
         """Return class name as str."""

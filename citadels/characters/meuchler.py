@@ -1,4 +1,4 @@
-from .character import Character
+from .character import Character, Color
 
 class Meuchler(Character):
     def __init__(self):
@@ -7,7 +7,11 @@ class Meuchler(Character):
         self.description = 'At any time use his characters skill'
         # self.img = 'meuchler.jpg'
 
-    def use_skill(self):
+    @property
+    def color(self):
+        return Color.NONE
+
+    def use_ability(self):
         print("Using Meuchler's skill")
 
 meuchler = Meuchler()
