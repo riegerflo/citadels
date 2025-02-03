@@ -1,8 +1,8 @@
 from .character import Character, Color
 
 class Haendler(Character):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, game):
+        super().__init__(game)
         self.name = 'Haendler'
         self.description = 'At any time use his characters skill'
         # self.img = 'koenig.jpg'
