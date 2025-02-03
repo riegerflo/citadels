@@ -6,6 +6,8 @@ setup(
     version='0.1',
     packages=['citadels'],
     install_requires=[
+        "pandas",
+        "openpyxl",
     ],
     entry_points={
         'console_scripts': [
