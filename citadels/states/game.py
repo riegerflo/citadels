@@ -1,7 +1,7 @@
 """Handles the states of the game at the highest level."""
 from random import choice
 from citadels.buildings.buildings import generate_deck
-# from citadels.characters import characters
+from citadels.characters import generate_characters
 from citadels.states.turn import PlayerTurnContext, ChooseCharactersContext
 
 class Game:
@@ -14,7 +14,7 @@ class Game:
 
         self.deck = generate_deck("./citadels/buildings/ListBuildings.xlsx")
         self.discard = []
-        self.characters = []
+        self.characters = generate_characters(self)
 
         self.round = 0
         self.last_round = False
@@ -22,7 +22,6 @@ class Game:
     def start(self):
         """Start the game."""
         while True:
-            self.characters = characters 
             self.round += 1
             print("Entering round", self.round)
 
