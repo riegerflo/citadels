@@ -21,6 +21,9 @@ class Building():
         """Perform a special action specific to the building."""
         pass
 
+    def __repr__(self):
+        return f'{self.name}(cost={self.cost}, color={self.color}, victory_points={self.victory_points}, actions={self.actions})'
+
 def generate_deck(filename):
     ##file "./citadels/buildings/ListBuildings.xlsx"
     df = pd.read_excel(filename)

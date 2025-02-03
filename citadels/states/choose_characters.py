@@ -64,12 +64,15 @@ class ChooseCharacterContext:
 
     def request(self):
         """Request the player to choose a character."""
+        self.characters = self.game.characters.copy()
         self.next_state(self.state)
+
         while self.state is not None:
             self.state.handle()
             last_state = self.state
             self.next_state(self.state)
             self.last_state = last_state
+
 
 
 class State(abc.ABC):
@@ -110,7 +113,7 @@ class DropAction(State):
 class NextPlayerState(State):
     def handle(self):
         self.context.current_player_index += 1
-        if self.context.current_player_index >= len(self.context.game.players)-1:
+        if self.context.current_player_index >= len(self.context.game.players):
             self.context.current_player_index = 0
 
         self.context.current_player = self.context.game.players[self.context.current_player_index]

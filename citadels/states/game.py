@@ -1,5 +1,5 @@
 """Handles the states of the game at the highest level."""
-from random import choice
+from random import choice, shuffle
 import logging
 
 from citadels.buildings.buildings import generate_deck
@@ -63,6 +63,16 @@ class Game:
             
             self.logger.debug("Round %d ended", self.round)
             self.characters = generate_characters(self)
+            for player in self.players:
+                player.characters = []
+
+    def draw(self):
+        """Draw a card from the deck."""
+        if not len(self.deck):
+            self.deck = shuffle(self.discard)
+            self.discard = []
+
+        return self.deck.pop()
 
     def _player_reached_win_condition(self, player):
         """Check if the player reached the win condition."""

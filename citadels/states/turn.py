@@ -18,7 +18,7 @@ class State:
 
 class DecideAction(State):
     def get_user_input(self):
-        return input("Choose action: \n(1) Take two gold coins, \n(2) Draw two cards and throw one away: ")
+        return input("Choose action: \n(1) Take two gold coins, \n(2) Draw two cards and throw one away:\n ")
     def handle(self):
         action = self.get_user_input()
         if action == '1':
@@ -37,35 +37,43 @@ class TakeTwoGoldCoins(State):
 
 class DrawTwoCards(State):
     def get_user_input(self, cards):
-        card = input(f"Choose a card to keep: \n(1) {cards[0]} \n(2) {cards[1]}")
+        card = input(f"Choose a card to keep: \n(1) {cards[0]} \n(2) {cards[1]}\n")
         if card not in ['1', '2']:
             print("Invalid card. Try again. Choose 1 or 2.")
             self.get_user_input(cards)
-        return card
+        return int(card)
 
     def handle(self):
         print("Drawing two cards")
         cards = [self.context.game.draw() for _ in range(2)]
         card = self.get_user_input(cards)
         print(f"Keeping card: {cards[card-1]}")
-        self.context.player.cards.append(cards[card-1])
+        self.context.player.hand.append(cards[card-1])
         self.context.state = LayOutBuilding(self.context)
 
 class LayOutBuilding(State):
     def get_user_input(self):
         choices = [card.name for card in self.context.player.hand]
-        choices_str = "\n".join([f"({i+1}) {card}" for i, card in enumerate(choices)])
-        choices_str += "\n(0) No"
-        return input(f"Do you want to lay out a building?: {choices_str}")
+        choices_str = "\n(0) No"
+        choices_str += "\n" + "\n".join([f"({i+1}) {card}" for i, card in enumerate(choices)])
+        return int(input(f"Do you want to lay out a building?: {choices_str}\n"))
 
     def handle(self):
         build = self.get_user_input()
-        if build == '0':
+        if not build:
             print("Not laying out a building")
         else:
-            building = self.context.player.cards.pop(build-1)
-            print(f"Laying out building: {building}")
-            self.context.player.buildings.append(building)
+            building = self.context.player.hand.pop(build-1)
+
+            if not self.context.player.gold >= building.cost:
+                print(f"Not enough gold ({self.context.player.gold}) to lay out building ({building.cost})")
+                self.context.player.hand.insert(build-1, building)
+                self.context.state = LayOutBuilding(self.context)
+                return
+
+            print(f"Laying out building: {building} for {building.cost} gold")
+            self.context.player.city.append(building)
+            self.context.player.gold -= building.cost
         self.context.state = UseCharacterSkill(self.context)
 
 class UseCharacterSkill(State):
