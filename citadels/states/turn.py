@@ -53,7 +53,7 @@ class DrawTwoCards(State):
 
 class LayOutBuilding(State):
     def get_user_input(self):
-        choices = [card.name for card in self.context.player.cards]
+        choices = [card.name for card in self.context.player.hand]
         choices_str = "\n".join([f"({i+1}) {card}" for i, card in enumerate(choices)])
         choices_str += "\n(0) No"
         return input(f"Do you want to lay out a building?: {choices_str}")

@@ -13,21 +13,24 @@ class Game:
     logger = logging.getLogger(__name__).getChild('Game')
 
     def __init__(self, players):
+        self.logger.debug('Creating game with players %s', players)
+
         self.players = players
         for player in players:
             player.set_game(self)
-
-        self.choose_character_context = ChooseCharacterContext(self)
 
         # The player that currently has the turn
         self.current_player = players[0]
 
         # Player that chooses the first character
         self.next_start_player = choice(players)
+        self.logger.debug('Next start player (considered King) is %s', self.next_start_player)
 
         self.deck = generate_deck("./citadels/buildings/ListBuildings.xlsx")
         self.discard = []
         self.characters = generate_characters(self)
+
+        self.choose_character_context = ChooseCharacterContext(self)
 
         self.round = 0
         self.last_round = False
@@ -45,7 +48,11 @@ class Game:
             while len(self.characters):
                 # Do turns for one player
                 self.current_player = self._get_next_player()
-                self.logger.debug(f"Player {self.current_player.name}'s turn")
+
+                if self.current_player is None:
+                    break
+
+                self.logger.debug("Player %s's turn", self.current_player.name)
                 print(f"Player {self.current_player.name}'s turn")
                 next_turn = PlayerTurnContext(self.current_player, self)
                 next_turn.request()
@@ -63,10 +70,11 @@ class Game:
 
     def _get_next_player(self):
         """Based on the character order, get the next player."""
-        character = self.characters.pop(0)
-        for player in self.players:
-            if character in player.characters:
-                return player
+        while len(self.characters):
+            character = self.characters.pop(0)
+            for player in self.players:
+                if character in player.characters:
+                    return player
 
 
 if __name__ == '__main__':
@@ -77,6 +85,6 @@ if __name__ == '__main__':
     game = Game([
         Player('Alice'),
         Player('Bob'),
-        Player('Charlie'),
+        # Player('Charlie'),
     ])
     game.start()
