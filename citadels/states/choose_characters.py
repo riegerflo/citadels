@@ -36,11 +36,19 @@ class TwoPlayerStrategy:
             raise ValueError(f"Invalid state: {current_state}")
 
 
+def get_strategy(context):
+    if len(context.game.players) == 2:
+        logging.debug("Using TwoPlayerStrategy")
+        return TwoPlayerStrategy(context)
+    else:
+        raise NotImplementedError("Only two player games are supported for now.")
+
+
 class ChooseCharacterContext:
-    def __init__(self, game, next_state_strategy):
+    def __init__(self, game):
         logging.debug("Creating ChooseCharacterContext")
         self.game = game
-        self._next_state_strategy = next_state_strategy(self)
+        self._next_state_strategy = get_strategy(self)
 
         self.characters = game.characters.copy()
 
