@@ -1,6 +1,6 @@
 from .character import Character, Color
 
-class Priester(Character):
+class Prediger(Character):
     def __init__(self):
         super().__init__()
         self.name = 'Priester'

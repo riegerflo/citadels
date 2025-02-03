@@ -4,8 +4,7 @@ from .dieb import Dieb
 from .haendler import Haendler
 from .koenig import Koenig
 from .magier import Magier
-from .priester import Priester
+from .priester import Prediger
 from .meuchler import Meuchler
 from .soeldner import Soeldner
-
-# characters = [meuchler, dieb, magier, haendler, koenig, baumeister, priester, soeldner]
+from .core import generate_characters
