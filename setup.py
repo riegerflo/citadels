@@ -8,6 +8,7 @@ setup(
     install_requires=[
         "pandas",
         "openpyxl",
+        "websockets",
     ],
     entry_points={
         'console_scripts': [

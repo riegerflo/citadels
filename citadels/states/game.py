@@ -1,11 +1,13 @@
 """Handles the states of the game at the highest level."""
 from random import choice, shuffle
 import logging
+import asyncio
 
 from citadels.buildings.buildings import generate_deck
 from citadels.characters import generate_characters
 from citadels.states.turn import PlayerTurnContext 
 from citadels.states.choose_characters import ChooseCharacterContext
+from citadels.server.server import GameServer
 
 class Game:
     """The game state."""
@@ -14,6 +16,8 @@ class Game:
 
     def __init__(self, players):
         self.logger.debug('Creating game with players %s', players)
+
+        self.server = GameServer()
 
         self.players = players
         for player in players:
@@ -35,15 +39,21 @@ class Game:
         self.round = 0
         self.last_round = False
 
-    def start(self):
+    async def start(self):
         """Start the game."""
+        self.logger.info('Starting game')
+        
+        self.logger.debug('Starting server')
+        asyncio.create_task(self.server.start())
+        self.logger.debug('Server started')
+
         while True:         
             self.round += 1
             print("Entering round", self.round)
             self.logger.debug(f"Round {self.round}")
 
             # Assign characters to players
-            self.choose_character_context.request()
+            await self.choose_character_context.request()
 
             while len(self.characters):
                 # Do turns for one player
@@ -55,7 +65,7 @@ class Game:
                 self.logger.debug("Player %s's turn", self.current_player.name)
                 print(f"Player {self.current_player.name}'s turn")
                 next_turn = PlayerTurnContext(self.current_player, self)
-                next_turn.request()
+                await next_turn.request()
 
                 self.last_round = self._player_reached_win_condition(self.current_player)
                 if self.last_round:
